@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ConnectUs</string>
+    <string name="OpenDrawer">open_drawer</string>
+    <string name="CloseDrawer">close_drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

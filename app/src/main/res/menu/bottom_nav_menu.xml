@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item
+        android:id="@+id/bchat"
+        android:icon="@drawable/chats"
+        android:title="chats"
+
+        />
+
+    <item
+        android:id="@+id/bcall"
+        android:icon="@drawable/call_24"
+        android:title="Calls" />
+
+    <item
+        android:id="@+id/bpeople"
+        android:icon="@drawable/baseline_people_24"
+        android:title="Peoples" />
+
+    <item
+        android:id="@+id/bstories"
+        android:icon="@drawable/baseline_web_stories_24"
+        android:title="Stories" />
+
+
+
+</menu>
