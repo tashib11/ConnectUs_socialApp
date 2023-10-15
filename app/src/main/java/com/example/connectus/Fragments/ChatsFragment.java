@@ -24,6 +24,7 @@ import com.example.connectus.Models.ModelChatlist;
 import com.example.connectus.Models.ModelUser;
 import com.example.connectus.R;
 import com.example.connectus.SignInActivity;
+import com.example.connectus.SignUpActivity;
 import com.example.connectus.databinding.FragmentChatsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,23 +67,32 @@ AdapterChatlist adapterChatlist;
         currentUser=FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = view.findViewById(R.id.usersRecyclerView);
         chatlistlist= new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(currentUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chatlistlist.clear();
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    ModelChatlist chatlist=ds.getValue(ModelChatlist.class);
-                    chatlistlist.add(chatlist);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(currentUser.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    chatlistlist.clear();
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        ModelChatlist chatlist=ds.getValue(ModelChatlist.class);
+                        chatlistlist.add(chatlist);
+                    }
+                    loadChats();
                 }
-                loadChats();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        } else {
+            Intent intent = new Intent(getActivity(), SignUpActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+
+
         return  view;
     }
 
@@ -118,30 +128,29 @@ AdapterChatlist adapterChatlist;
     }
 
     private void lastMessage(String userId) {
-        DatabaseReference reference1= FirebaseDatabase.getInstance().getReference("Chats");
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Chats");
         reference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String theLastMessage= "default";
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    ModelChat chat= ds.getValue(ModelChat.class);
-                    if(chat==null){
+                String theLastMessage = "default";
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    ModelChat chat = ds.getValue(ModelChat.class);
+                    if (chat == null) {
                         continue;
                     }
-                    String sender= chat.getSender();
-                    String receiver= chat.getReceiver();
-                    if(sender==null || receiver==null){
+                    String sender = chat.getSender();
+                    String receiver = chat.getReceiver();
+                    if (sender == null || receiver == null) {
                         continue;
                     }
-                    if(chat.getReceiver().equals(currentUser.getUid())&& chat.getSender().equals(userId) || chat.getReceiver().equals(userId)
-                    && chat.getSender().equals(currentUser.getUid())){
+                    if ((chat.getReceiver().equals(currentUser.getUid()) && chat.getSender().equals(userId)) ||
+                            (chat.getReceiver().equals(userId) && chat.getSender().equals(currentUser.getUid()))) {
                         String chatType = chat.getType();
-                        if(chatType != null && chatType.equals("image")){
-                            theLastMessage= "Sent a photo";
-                        }else {
+                        if (chatType != null && chatType.equals("image")) {
+                            theLastMessage = "Sent a photo";
+                        } else {
                             theLastMessage = chat.getMessage();
                         }
-
                     }
                 }
                 adapterChatlist.setLastMessageMap(userId, theLastMessage);

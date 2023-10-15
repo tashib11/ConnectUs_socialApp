@@ -41,27 +41,33 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        //getdata
- String hisUid= userList.get(position).getUserId();
- String userImage= userList.get(position).getImage();
- String userName= userList.get(position).getUserName();
- String lastMessage= lastMessageMap.get(hisUid);
+        ModelUser user = userList.get(position);
+        String hisUid = user.getUserId();
+        String userImage = user.getImage();
+        String userName = user.getUserName();
+        String lastMessage = lastMessageMap.get(hisUid);
 
- //set data
         holder.nameTv.setText(userName);
-        if(lastMessage==null || lastMessage.equals("default")){
+        if (lastMessage == null || lastMessage.equals("default")) {
             holder.lastMessageTv.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.lastMessageTv.setVisibility(View.VISIBLE);
             holder.lastMessageTv.setText(lastMessage);
         }
+
+        // Display the image placeholder or last sent image
+        if (lastMessage != null && lastMessage.equals("Sent a photo")) {
+            holder.lastMessageTv.setText(lastMessage);
+        } else {
+            holder.lastMessageTv.setText(lastMessage);
+        }
+
         try {
             Picasso.get().load(userImage).placeholder(R.drawable.avatar).into(holder.profileIv);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Picasso.get().load(R.drawable.avatar).into(holder.profileIv);
+        }
 
-            }
         String onlineStatus = userList.get(position).getOnlineStatus();
         if(onlineStatus != null && onlineStatus.equals("online")){
             holder.onlineStatusIv.setImageResource(R.drawable.circle_online);
@@ -69,15 +75,13 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
             holder.onlineStatusIv.setImageResource(R.drawable.circle_offline);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(context, ChatDetailActivity.class);
-                intent.putExtra("hisUid", hisUid);
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ChatDetailActivity.class);
+            intent.putExtra("hisUid", hisUid);
+            context.startActivity(intent);
         });
     }
+
 
     public  void  setLastMessageMap(String userId, String lastMessage){
         lastMessageMap.put(userId,lastMessage);
@@ -88,19 +92,17 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
         return userList.size();// size of the list
     }
 
-    class  MyHolder extends RecyclerView.ViewHolder{
-        //views of row chatlist.xml
+    static class MyHolder extends RecyclerView.ViewHolder {
         ImageView profileIv, onlineStatusIv;
         TextView nameTv, lastMessageTv;
 
-        public MyHolder(@NonNull View itemView) {
+        MyHolder(@NonNull View itemView) {
             super(itemView);
-            profileIv= itemView.findViewById(R.id.profileIv);
-            onlineStatusIv= itemView.findViewById(R.id.onlineStatusIv);
-            nameTv= itemView.findViewById(R.id.nameTv);
-            lastMessageTv= itemView.findViewById(R.id.lastMessageTv);
+            profileIv = itemView.findViewById(R.id.profileIv);
+            onlineStatusIv = itemView.findViewById(R.id.onlineStatusIv);
+            nameTv = itemView.findViewById(R.id.nameTv);
+            lastMessageTv = itemView.findViewById(R.id.lastMessageTv);
         }
-
-
     }
+
 }

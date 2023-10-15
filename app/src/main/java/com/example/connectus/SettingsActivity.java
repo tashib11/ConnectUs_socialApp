@@ -122,7 +122,7 @@ storageReference = storage.getReference();//firebase storage reference
     }
 
     private void showEditProfileDialog() {
-        String[] options ={"Edit Profile Picture", "Edit Cover Photo ","Edit Name","Edit Phone "};
+        String[] options ={"Edit Profile Picture", "Edit Cover Photo ","Edit Name","Edit Phone", "Change password"};
 
         AlertDialog.Builder builder= new AlertDialog.Builder(this);
         builder.setTitle("Choose Action");
@@ -145,12 +145,17 @@ storageReference = storage.getReference();//firebase storage reference
            }else  if(i==3){
                progressDialog.setMessage("Updating Phone Number");
                showNamePhoneUpdateDialog("phone");
-
-
+             }else  if(i==4){
+               progressDialog.setMessage("Updating Password");
+               showChangePasswordDialog();
            }
             }
         });
         builder.create().show();
+    }
+
+    private void showChangePasswordDialog() {
+
     }
 
     private void showNamePhoneUpdateDialog(String key) {

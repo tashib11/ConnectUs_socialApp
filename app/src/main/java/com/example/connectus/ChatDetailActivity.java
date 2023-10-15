@@ -124,7 +124,8 @@ String hisImage;
 
 
                     try{
-                        Picasso.get().load(hisImage).placeholder(R.drawable.avatar).into(binding.profileIv);
+                        Picasso.get().load(hisImage).fit().placeholder(R.drawable.avatar).into(binding.profileIv);
+
                     }catch (Exception e){
                         Picasso.get().load(R.drawable.avatar).into(binding.profileIv);
                     }
@@ -258,83 +259,79 @@ String hisImage;
 
     }
     private void sendImageMessage(Uri image_rui) throws IOException {
-        ProgressDialog progressDialog= new ProgressDialog(this);
+        ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Sending image...");
         progressDialog.show();
-        String timeStamp= ""+String.valueOf(System.currentTimeMillis());
-        String fileNameAndPath= "ChatImages"+ timeStamp;
-        // chats node will be created that will contain all images sent via chat
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        String fileNameAndPath = "ChatImages" + timeStamp;
 
-        //get butmap from image uri
-
-        Bitmap bitmap= MediaStore.Images.Media.getBitmap(this.getContentResolver(),image_rui);
+//        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_rui);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] data = baos.toByteArray();
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_rui);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] data = baos.toByteArray();//convert Image to bytes
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos); //compress to 70% of original
+        byte[] data = baos.toByteArray();
 
-        StorageReference ref= FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
-        ref.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.dismiss();
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while(!uriTask.isSuccessful());
-                String  downloadUri= uriTask.getResult().toString();
-                //check if image is uploaded or not amd url is received
-                if(uriTask.isSuccessful()){
-                    //image uploaded
-                    // add update url in users database
-                    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
 
-                    HashMap<String,Object>hashMap= new HashMap<>();
-                    hashMap.put("sender",myUid);
-                    hashMap.put("receiver",hisUid);
-                    hashMap.put("message",downloadUri);
-                    hashMap.put("timestamp",timeStamp);
-                    hashMap.put("type","image");
-                    hashMap.put("isSeen",false);
-                    databaseReference.child("Chats").push().setValue(hashMap);
-                    // create chatlist node/child in firebase
-                    DatabaseReference chatRef1= FirebaseDatabase.getInstance().getReference("Chatlist").child(myUid).child(hisUid);
-                    chatRef1.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(!snapshot.exists()){
-                                chatRef1.child("id").setValue(hisUid);
-                            }
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
+        ref.putBytes(data).addOnSuccessListener(taskSnapshot -> {
+            progressDialog.dismiss();
+            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+            while (!uriTask.isSuccessful()) ;
+            String downloadUri = uriTask.getResult().toString();
+
+            if (uriTask.isSuccessful()) {
+                // Image uploaded successfully
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("sender", myUid);
+                hashMap.put("receiver", hisUid);
+                hashMap.put("message", downloadUri);
+                hashMap.put("timestamp", timeStamp);
+                hashMap.put("type", "image");
+                hashMap.put("isSeen", false);
+                databaseReference.child("Chats").push().setValue(hashMap);
+
+                // Create the chatlist node/child in Firebase
+                DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("Chatlist").child(myUid).child(hisUid);
+                chatRef1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            chatRef1.child("id").setValue(hisUid);
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
+                    }
+                });
+
+                DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("Chatlist").child(hisUid).child(myUid);
+                chatRef2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            chatRef2.child("id").setValue(myUid);
                         }
-                    });
+                    }
 
-                    DatabaseReference chatRef2= FirebaseDatabase.getInstance().getReference("Chatlist").child(hisUid).child(myUid);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    chatRef2.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(!snapshot.exists()){
-                                chatRef2.child("id").setValue(myUid);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
+                    }
+                });
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-            }
+        }).addOnFailureListener(e -> {
+            progressDialog.dismiss();
+            // Handle the failure to upload the image here
         });
-
     }
+
 
 
 

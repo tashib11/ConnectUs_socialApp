@@ -2,6 +2,8 @@ package com.example.connectus.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.connectus.Models.ModelChat;
 import com.example.connectus.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -89,7 +92,9 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
         }else{
             holder.messageTv.setVisibility(View.GONE);
             holder.messageIv.setVisibility(View.VISIBLE);
-            Picasso.get().load(message).placeholder(R.drawable.ic_image_black).into(holder.messageIv);
+            Glide.with(context) // picasso use korle high pic a app crush kore
+                    .load(message)
+                    .into(holder.messageIv);
         }
 
         Picasso.get().load(imageUrl).into(holder.profileIv);
