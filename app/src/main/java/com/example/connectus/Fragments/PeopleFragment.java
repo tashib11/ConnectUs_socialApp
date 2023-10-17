@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +21,6 @@ import com.example.connectus.Adapters.AdapterUsers;
 import com.example.connectus.Models.ModelUser;
 import com.example.connectus.R;
 import com.example.connectus.SignInActivity;
-import com.example.connectus.databinding.FragmentChatsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,8 +42,6 @@ public class PeopleFragment extends Fragment {
     public PeopleFragment() {
         // Required empty public constructor
     }
-    FragmentChatsBinding binding;
-    FirebaseDatabase database;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

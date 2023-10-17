@@ -81,10 +81,6 @@ public class MainActivity extends AppCompatActivity {
              auth.signOut();
             Intent intent=new Intent(MainActivity.this,SignInActivity.class);
                 startActivity(intent);
-                } else if(id==R.id.groupChat){
-//                    Intent intent= new Intent(MainActivity.this,GroupChatActivity.class);
-//                    startActivity(intent);
-                    Toast.makeText(MainActivity.this, "group created", Toast.LENGTH_SHORT).show();
                 }
                 else if(id==R.id.settings){
                     Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -110,21 +106,10 @@ public class MainActivity extends AppCompatActivity {
 //                    loadFrag(new chatFragment());
                     return  true;
                 }
-              else  if(id==R.id.bcall){
+          else   if(id==R.id.bpeople){
                     binding.viewPager.setCurrentItem(1);
-                    Toast.makeText(MainActivity.this, "call", Toast.LENGTH_SHORT).show();
-//                    loadFrag(new callFragment());
-                    return  true;
-                } else   if(id==R.id.bpeople){
-                    binding.viewPager.setCurrentItem(2);
 
                     Toast.makeText(MainActivity.this, "people", Toast.LENGTH_SHORT).show();
-//                    loadFrag(new peopleFragment());
-                    return  true;
-                }else   if(id==R.id.bstories){
-                    binding.viewPager.setCurrentItem(3);
-
-                    Toast.makeText(MainActivity.this, "stories", Toast.LENGTH_SHORT).show();
 //                    loadFrag(new peopleFragment());
                     return  true;
                 }

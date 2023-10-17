@@ -6,12 +6,7 @@
 
         android:title="settings"
         />
-    <item
-        android:id="@+id/Create_groupChat"
 
-        android:title="New Group"
-        android:icon="@drawable/baseline_group_24"
-        />
     <item
         android:id="@+id/logout"
         android:title="Logout"

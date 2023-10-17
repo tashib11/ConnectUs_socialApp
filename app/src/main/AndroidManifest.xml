@@ -2,20 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.CAMERA"
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
-
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
-
-<!--    <uses-permission android:name="android.permission.CAMERA"/>-->
-<!--    <uses-permission android:name="android.permission.INTERNET"/>-->
-
 
     <application
         android:allowBackup="true"
@@ -31,7 +23,6 @@
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
-
         <activity
             android:name=".ChatDetailActivity"
             android:exported="false" /> <!-- android:theme="@style/Theme.ConnectUs" -->
@@ -49,10 +40,7 @@
         </activity>
         <activity
             android:name=".SignInActivity"
-            android:exported="false"
-            />
-
-
+            android:exported="false" />
     </application>
 
 </manifest>
