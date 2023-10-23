@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -16,8 +17,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.connectus.Adapters.AdapterChat;
 import com.example.connectus.Models.ModelChat;
 import com.example.connectus.Models.ModelUser;
@@ -67,6 +71,12 @@ String hisImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            ((Window) window).setStatusBarColor(this.getResources().getColor(R.color.black));
+        }
 //        getSupportActionBar().hide();
         binding=ActivityChatDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -122,13 +132,22 @@ String hisImage;
                     //set data
                     binding.nameTv.setText(name);
 
-
-                    try{
-                        Picasso.get().load(hisImage).fit().placeholder(R.drawable.avatar).into(binding.profileIv);
-
-                    }catch (Exception e){
-                        Picasso.get().load(R.drawable.avatar).into(binding.profileIv);
+                    try {
+                        Glide.with(ChatDetailActivity.this)
+                                .load(hisImage)
+                                .placeholder(R.drawable.avatar)
+                                .into(binding.profileIv);
+                    } catch (Exception e) {
+                        Glide.with(ChatDetailActivity.this)
+                                .load(R.drawable.avatar)
+                                .into(binding.profileIv);
                     }
+//                    try{
+//                        Picasso.get().load(hisImage).fit().placeholder(R.drawable.avatar).into(binding.profileIv);
+//
+//                    }catch (Exception e){
+//                        Picasso.get().load(R.drawable.avatar).into(binding.profileIv);
+//                    }
 
                 }
             }

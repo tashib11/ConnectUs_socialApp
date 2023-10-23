@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/imag"
+    android:background="@drawable/back6"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".SignInActivity">
@@ -37,27 +37,42 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:padding="9dp" />
+            android:padding="9dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/black"
+            android:textColorHint="#505E64"/>
 
-        <EditText
-            android:id="@+id/etPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="9dp" />
+            android:textColorHint="@color/bar"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:passwordToggleTint="@color/black"
+            app:passwordToggleEnabled="true">
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="9dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/bar"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <TextView
             android:id="@+id/recoverPassTv"
             android:layout_width="wrap_content"
-            android:layout_height="21dp"
+            android:layout_height="25dp"
             android:layout_marginTop="5dp"
             android:layout_gravity="right"
             android:gravity="right"
             android:text="Forgotten password"
-            android:textColor="#8BC34A"
+            android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textColorLink="@color/black"
             android:textSize="18sp" />
@@ -67,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:padding="15dp"
             android:text="Log in"
             android:backgroundTint="#192022"
@@ -76,34 +91,41 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="91dp"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="or"
+                android:textSize="30sp"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:text="Login With"
+
+                />
             <Button
                 android:id="@+id/btn_google"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="#192022"
                 android:textColor="@color/white"
-                android:drawableLeft="@drawable/g"
+                android:drawableLeft="@drawable/google"
                 android:padding="15dp"
                 android:text="GOOGLE"
                 app:cornerRadius="15dp" />
 
-            <Button
-                android:id="@+id/btn_fb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/fb_color"
-                android:drawableLeft="@drawable/facebook"
-                android:padding="14dp"
-                android:text="FACEBOOK"
-                app:cornerRadius="15dp" />
+
 
         </LinearLayout>
 

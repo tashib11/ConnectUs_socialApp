@@ -18,10 +18,12 @@ import android.view.ViewGroup;
 
 import com.example.connectus.Adapters.AdapterChatlist;
 import com.example.connectus.Adapters.AdapterUsers;
+import com.example.connectus.MainActivity;
 import com.example.connectus.Models.ModelChat;
 import com.example.connectus.Models.ModelChatlist;
 import com.example.connectus.Models.ModelUser;
 import com.example.connectus.R;
+import com.example.connectus.SettingsActivity;
 import com.example.connectus.SignInActivity;
 import com.example.connectus.SignUpActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -174,6 +176,7 @@ AdapterChatlist adapterChatlist;
 
     // for searh bar
     private void searchUsers(String query) {
+
         //get current user
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
         //get path of datbase named "Users" containing users info
@@ -251,14 +254,7 @@ AdapterChatlist adapterChatlist;
         });
 
         super.onCreateOptionsMenu(menu, inflater);
+
     }
 
-    public boolean onOptionItemSelected(MenuItem item){
-        int id =item.getItemId();
-        if(id==R.id.logout) {
-            firebaseAuth.signOut();
-            checkUserStatus();
-        }
-        return super.onOptionsItemSelected(item);
-    } // end of code for search bar
 }

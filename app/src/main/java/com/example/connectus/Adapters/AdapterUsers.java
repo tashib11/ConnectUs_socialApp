@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.connectus.ChatDetailActivity;
 import com.example.connectus.Models.ModelUser;
 import com.example.connectus.R;
@@ -49,10 +50,18 @@ public class AdapterUsers extends  RecyclerView.Adapter<AdapterUsers.MyHolder> {
 
         //set data
         holder.mNameTv.setText(userName);
+
         if (userImage != null && !userImage.trim().isEmpty()) {
-            Picasso.get().load(userImage).placeholder(R.drawable.avatar).into(holder.mAvatarIv);
+            Glide.with(context)
+                    .load(userImage)
+                    .placeholder(R.drawable.avatar)
+                    .into(holder.mAvatarIv);
+//            Picasso.get().load(userImage).placeholder(R.drawable.avatar).into(holder.mAvatarIv);
         } else {
-            Picasso.get().load(R.drawable.avatar).into(holder.mAvatarIv);
+            Glide.with(context)
+                    .load(R.drawable.avatar)
+                    .into(holder.mAvatarIv);
+//            Picasso.get().load(R.drawable.avatar).into(holder.mAvatarIv);
             // Load a default image or handle the case when userImage is null or empty
         }
         try{

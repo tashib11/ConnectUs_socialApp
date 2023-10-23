@@ -4,5 +4,6 @@
     <string name="CloseDrawer">close_drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="press_the_pencil_icon_to_update">press the pencil icon to update</string>
 
 </resources>

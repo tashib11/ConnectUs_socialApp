@@ -112,16 +112,19 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="207dp"
+        android:layout_marginEnd="193dp"
+        android:layout_marginRight="193dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="#3F2967"
-        android:src="@drawable/baseline_edit_24"
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO"
+        android:src="@drawable/baseline_edit_24" />
+
+
 
 
 </RelativeLayout>

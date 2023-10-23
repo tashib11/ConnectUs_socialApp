@@ -63,34 +63,6 @@ public class SignUpActivity extends AppCompatActivity {////////=+
                 .requestEmail().build();
         mGoogleSignInClient= GoogleSignIn.getClient(this,gso);
 
-//        binding.btnSignUP.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                progressDialog.show();
-//                auth.createUserWithEmailAndPassword(binding.etEmail.getText().toString(),
-//                        binding.etPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        progressDialog.dismiss();//to close the loading
-//
-//                        if(task.isSuccessful()){
-//                            Users user=new Users(binding.userName.getText().toString(),binding.etEmail.getText().toString(),
-//                                    binding.etPassword.getText().toString());
-//                            String id=task.getResult().getUser().getUid();
-//                            database.getReference().child("Users").child(id).setValue(user);
-//                            Toast.makeText(SignUpActivity.this, "id created succefully", Toast.LENGTH_SHORT).show();
-//                        }
-//                        else if(binding.etPassword.getText().toString().length()<6){
-//                            Toast.makeText(SignUpActivity.this, "password should at least 6 digits", Toast.LENGTH_SHORT).show();
-//                        }
-//                        else{
-////                            Toast.makeText(SignUpActivity.this,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//            }
-//        });
         binding.btnGoogle.setOnClickListener(view1 -> {
             signIn();
         });
@@ -123,41 +95,8 @@ public class SignUpActivity extends AppCompatActivity {////////=+
                 signUpUser(userName,email,password);
             }
 
-//            progressDialog.show();
-//                auth.createUserWithEmailAndPassword(binding.etEmail.getText().toString(),
-//                        binding.etPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//
-//
-//                        if(task.isSuccessful()){
-//                            progressDialog.dismiss();//to close the loading
-////                            Users user=new Users(binding.userName.getText().toString(),binding.etEmail.getText().toString(),
-////                                    binding.etPassword.getText().toString());
-//                            FirebaseUser user= auth.getCurrentUser();
-//                            String id=task.getResult().getUser().getUid();
-////                            database.getReference().child("Users").child(id).setValue(user);
-//
-//
-//
-//
-//                            Toast.makeText(SignUpActivity.this, "id created successfully", Toast.LENGTH_SHORT).show();
-//
-//
-//                        }
-//                        else if(binding.etPassword.getText().toString().length()<6 ){
-//                            progressDialog.dismiss();//to close the loading
-//        binding.etPassword.setError("password should at least 6 digits");
-////                            Toast.makeText(SignUpActivity.this, "password should at least 6 digits", Toast.LENGTH_SHORT).show();
-//                        }
-//                        else{
-//                            progressDialog.dismiss();//to close the loading
-////                            Toast.makeText(SignUpActivity.this,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                            binding.etEmail.setError("Invalid Email format");
-//                        }
-//                    }
-//                });
         });
+
         binding.alreadyhaveAccount.setOnClickListener(view -> {
             Intent intent=new Intent(SignUpActivity.this,SignInActivity.class);
             startActivity(intent);
@@ -193,7 +132,7 @@ public class SignUpActivity extends AppCompatActivity {////////=+
                     reference.child(uid).setValue(hashMap);
 
                     Toast.makeText(SignUpActivity.this, "Account Created for "+user.getEmail(), Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
+                    Intent intent=new Intent(SignUpActivity.this,SettingsActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(SignUpActivity.this,"Authentication failed",Toast.LENGTH_SHORT).show();
@@ -276,7 +215,7 @@ public class SignUpActivity extends AppCompatActivity {////////=+
 
                             }
                             // updateUI(user);
-                            Intent intent=new Intent(SignUpActivity.this, MainActivity.class);
+                            Intent intent=new Intent(SignUpActivity.this, SettingsActivity.class);
                             startActivity(intent);
                             Toast.makeText(SignUpActivity.this, "Sign in with Google", Toast.LENGTH_SHORT).show();
 // realtime database a google id ar pic pass nite hobe .so below code

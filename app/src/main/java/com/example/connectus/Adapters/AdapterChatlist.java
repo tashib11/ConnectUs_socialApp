@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.connectus.ChatDetailActivity;
 import com.example.connectus.Models.ModelUser;
 import com.example.connectus.R;
@@ -61,12 +62,17 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
         } else {
             holder.lastMessageTv.setText(lastMessage);
         }
-
         try {
-            Picasso.get().load(userImage).placeholder(R.drawable.avatar).into(holder.profileIv);
+            Glide.with(context)
+                    .load(userImage)
+                    .placeholder(R.drawable.avatar)
+                    .into(holder.profileIv);
         } catch (Exception e) {
-            Picasso.get().load(R.drawable.avatar).into(holder.profileIv);
+            Glide.with(context)
+                    .load(R.drawable.avatar)
+                    .into(holder.profileIv);
         }
+
 
         String onlineStatus = userList.get(position).getOnlineStatus();
         if(onlineStatus != null && onlineStatus.equals("online")){

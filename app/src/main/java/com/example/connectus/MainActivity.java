@@ -45,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // for  status bar color
-        if (Build.VERSION.SDK_INT >= 21) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            ((Window) window).setStatusBarColor(this.getResources().getColor(R.color.black));
-        }
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        ((Window) window).setStatusBarColor(this.getResources().getColor(R.color.black));
 
 //        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
         binding=ActivityMainBinding.inflate(getLayoutInflater());
@@ -85,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 else if(id==R.id.settings){
                     Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(intent);
-                    Toast.makeText(MainActivity.this, "settings", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
             }
         });
         binding.viewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager()));
+        getSupportActionBar().setTitle("Chats");
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
@@ -101,16 +99,16 @@ public class MainActivity extends AppCompatActivity {
                 int id= item.getItemId();
                 if(id==R.id.bchat){
                     binding.viewPager.setCurrentItem(0);
-//                    getActionBar().setTitle("Chats");
-                    Toast.makeText(MainActivity.this, "chat", Toast.LENGTH_SHORT).show();
-//                    loadFrag(new chatFragment());
+
+                    getSupportActionBar().setTitle("Chats");
+
                     return  true;
                 }
           else   if(id==R.id.bpeople){
                     binding.viewPager.setCurrentItem(1);
+//                    getActionBar().setTitle("Chats");
+                    getSupportActionBar().setTitle("People");
 
-                    Toast.makeText(MainActivity.this, "people", Toast.LENGTH_SHORT).show();
-//                    loadFrag(new peopleFragment());
                     return  true;
                 }
                 return false;

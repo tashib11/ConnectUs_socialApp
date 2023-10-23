@@ -33,6 +33,7 @@ android:layout_gravity="end"
             android:layout_height="wrap_content"
             android:text="time bujso"
             android:textColor="@color/bar"
+            android:layout_marginTop="3dp"
             android:textSize="12sp"/>
         <TextView
             android:id="@+id/messageTv"
@@ -41,7 +42,7 @@ android:layout_gravity="end"
             android:textSize="16sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginStart="5dp"
             android:padding="8dp"
             android:layout_marginTop="4dp"
@@ -58,11 +59,12 @@ android:layout_gravity="end"
             android:id="@+id/messageIvImage"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="3dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/bg_receiver"
             android:src="@drawable/ic_image_black"
-
-            android:padding="15dp"
+android:layout_marginEnd="10dp"
+            android:padding="0dp"
             android:scaleType="fitCenter" />
 
 
