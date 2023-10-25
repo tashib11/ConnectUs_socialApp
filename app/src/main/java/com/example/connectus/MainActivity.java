@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent=new Intent(MainActivity.this,SignInActivity.class);
             startActivity(intent);
         }
+        getSupportActionBar().setTitle("Chats");
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -84,12 +85,15 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(intent);
                 }
+                else if(id==R.id.deleteAccount){
+                    Intent intent = new Intent(MainActivity.this, deleteAccountActivity.class);
+                    startActivity(intent);
+                }
 
                 return true;
             }
         });
         binding.viewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager()));
-        getSupportActionBar().setTitle("Chats");
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
