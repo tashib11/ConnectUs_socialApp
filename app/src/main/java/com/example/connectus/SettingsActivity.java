@@ -140,7 +140,10 @@ storageReference = storage.getReference();//firebase storage reference
             }
         });
 
-
+binding.aboutTxt.setOnClickListener(view -> {
+    Intent intent= new Intent(SettingsActivity.this,aboutActivity.class);
+    startActivity(intent);
+});
 
 
     }

@@ -10,5 +10,13 @@
         retrieve the content or information you have shared with others
         and your account will be deleted permanently
     </string>
+    <string name="Description">
+     ConnectUs app is a social bases app which is used to make
+        communication easy among the users. It makes the relation
+        more strong and brings all together to more close.
+        Whatever this app is in the develop stage, there is a
+        long journey to complete the whole application.
 
+
+    </string>
 </resources>

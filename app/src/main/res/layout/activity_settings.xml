@@ -8,6 +8,7 @@
     tools:context=".SettingsActivity">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -123,7 +124,25 @@
         android:backgroundTint="#3F2967"
         android:contentDescription="TODO"
         android:src="@drawable/baseline_edit_24" />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="200dp"
+    android:padding="30dp"
+    android:gravity="center"
+android:layout_below="@id/scrollView">
+    <TextView
+        android:gravity="center"
+        android:id="@+id/aboutTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+ android:text="About us "
+        android:drawableLeft="@drawable/about"
+        android:drawablePadding="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+</LinearLayout>
 
 
 
