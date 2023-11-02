@@ -1,6 +1,8 @@
 package com.example.connectus;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,6 +23,9 @@ ActivityAboutBinding binding;
 //        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
         binding= ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+binding.backArrow.setOnClickListener(view -> {
+    Intent intent=new Intent(aboutActivity.this,SettingsActivity.class);
+    startActivity(intent);
+});
     }
 }

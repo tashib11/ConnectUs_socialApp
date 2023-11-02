@@ -24,39 +24,56 @@
         android:id="@+id/chatLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/black">
 
         <EditText
             android:id="@+id/messageEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="11"
             android:layout_marginRight="6dp"
-            app:layout_goneMarginLeft="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/bg_et_message"
+            android:ems="10"
             android:hint="message"
             android:inputType="textMultiLine|textAutoCorrect"
             android:padding="8dp"
             android:textColor="@color/white"
             android:textColorHint="@color/blacklight"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sendbtn"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/attachBtn"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_goneMarginLeft="20dp" />
+
+        <ImageView
+            android:id="@+id/attachBtnVideo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@null"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/videosend"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/attachBtn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
         <ImageView
             android:id="@+id/attachBtn"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/baseline_image_24"
             android:background="@null"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="13dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginRight="10dp"
+            android:src="@drawable/baseline_image_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/messageEt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/attachBtnVideo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
         <ImageView
             android:id="@+id/sendbtn"
@@ -64,12 +81,12 @@
             android:layout_height="30dp"
             android:layout_marginStart="3dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="14dp"
             android:backgroundTint="@color/blacklight"
             android:src="@drawable/send"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

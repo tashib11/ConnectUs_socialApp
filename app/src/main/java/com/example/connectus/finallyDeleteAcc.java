@@ -77,10 +77,7 @@ ProgressDialog progressDialog;
             });
         });
 
-        binding.backArrow.setOnClickListener(view -> {
-            Intent intent= new Intent(finallyDeleteAcc.this, deleteAccountActivity.class);
-            startActivity(intent);
-        });
+
 
         binding.recoverPassTv.setOnClickListener(view -> {
             showRecoverPasswordDialog();

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -44,7 +47,7 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
     List<ModelChat> chatList;
     String imageUrl;
     FirebaseUser fUser;
-
+    private VideoView currentlyPlayingVideo;
     public AdapterChat(Context context, List<ModelChat> chatList, String imageUrl) {
         this.context = context;
         this.chatList = chatList;
@@ -88,14 +91,43 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
         if(chatType != null && chatType.equals("text")){
             holder.messageTv.setVisibility(View.VISIBLE);
             holder.messageIv.setVisibility(View.GONE);
+            holder.messageVideoView.setVisibility(View.GONE);
+
             holder.messageTv.setText(message);
-        }else{
+        } else if (chatType != null && chatType.equals("image")) {
             holder.messageTv.setVisibility(View.GONE);
+            holder.messageVideoView.setVisibility(View.GONE);
+
             holder.messageIv.setVisibility(View.VISIBLE);
-            Glide.with(context) // picasso use korle high pic a app crush kore
+            Glide.with(context)
                     .load(message)
                     .into(holder.messageIv);
+        }  else if (chatType != null && chatType.equals("video")) {
+            holder.messageVideoView.setVisibility(View.VISIBLE);
+            holder.messageTv.setVisibility(View.GONE);
+
+            holder.messageIv.setVisibility(View.GONE);
+            Uri videoUri = Uri.parse(message);
+            holder.messageVideoView.setVideoURI(videoUri);
+            holder.messageVideoView.requestFocus();
+            if (currentlyPlayingVideo != null && currentlyPlayingVideo != holder.messageVideoView) {
+                currentlyPlayingVideo.stopPlayback();
+            }
+            holder.messageVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    holder.messageVideoView.start();
+                    currentlyPlayingVideo = holder.messageVideoView;
+                }
+            });
+            holder.messageVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    holder.messageVideoView.stopPlayback();
+                }
+            });
         }
+
 
         Picasso.get().load(imageUrl).into(holder.profileIv);
 //click to show dlete diaglog
@@ -183,9 +215,24 @@ holder.messageTv.setOnLongClickListener(new View.OnLongClickListener() {
             return MSG_TYPE_LEFT;
         }
     }
+    @Override
+    public void onViewAttachedToWindow(@NonNull MyHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if (holder.messageVideoView.isPlaying()) {
+            holder.messageVideoView.start();
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull MyHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        if (holder.messageVideoView.isPlaying()) {
+            holder.messageVideoView.pause();
+        }
+    }
 
     class MyHolder extends RecyclerView.ViewHolder{
-
+        VideoView messageVideoView;
         ImageView profileIv,messageIv;
         TextView messageTv, timeTv, isSeenTv;
         LinearLayout messageLayout;//for click listeneter to show delete
@@ -197,6 +244,7 @@ holder.messageTv.setOnLongClickListener(new View.OnLongClickListener() {
             timeTv=itemView.findViewById(R.id.timeTv);
             isSeenTv=itemView.findViewById(R.id.isSeenTv);
             messageLayout=itemView.findViewById(R.id.messageLayout);
+            messageVideoView = itemView.findViewById(R.id.messageVideoView);
         }
     }
 

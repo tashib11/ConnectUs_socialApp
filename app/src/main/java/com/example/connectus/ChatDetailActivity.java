@@ -66,6 +66,8 @@ String hisImage;
     AdapterChat adapterChat;
 
     private  static  final  int GALLERY_REQUEST_CODE = 400;
+    private static final int VIDEO_REQUEST_CODE = 500;
+
     Uri image_rui=null;
 
     @Override
@@ -176,6 +178,10 @@ String hisImage;
             }
         });
 
+binding.attachBtnVideo.setOnClickListener(view -> {
+    pickVideoFromGallery();
+
+});
         binding.backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,6 +193,12 @@ String hisImage;
  readMessages();
 //        seenMessage();
 
+    }
+
+    private void pickVideoFromGallery() {
+        Intent videoIntent = new Intent(Intent.ACTION_PICK);
+        videoIntent.setType("video/*");
+        startActivityForResult(videoIntent, VIDEO_REQUEST_CODE);
     }
 
     private void pickImageFromeGallery() {
@@ -351,6 +363,69 @@ String hisImage;
         });
     }
 
+    private void sendVideoMessage(Uri videoUri) {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Sending video...");
+        progressDialog.show();
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        String fileNameAndPath = "ChatVideos" + timeStamp;
+
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
+        ref.putFile(videoUri).addOnSuccessListener(taskSnapshot -> {
+            progressDialog.dismiss();
+            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+            while (!uriTask.isSuccessful()) ;
+            String downloadUri = uriTask.getResult().toString();
+
+            if (uriTask.isSuccessful()) {
+                // Video uploaded successfully
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("sender", myUid);
+                hashMap.put("receiver", hisUid);
+                hashMap.put("message", downloadUri);
+                hashMap.put("timestamp", timeStamp);
+                hashMap.put("type", "video");
+                hashMap.put("isSeen", false);
+                databaseReference.child("Chats").push().setValue(hashMap);
+
+                // Create the chatlist node/child in Firebase
+                DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("Chatlist").child(myUid).child(hisUid);
+                chatRef1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            chatRef1.child("id").setValue(hisUid);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("Chatlist").child(hisUid).child(myUid);
+                chatRef2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            chatRef2.child("id").setValue(myUid);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }).addOnFailureListener(e -> {
+            progressDialog.dismiss();
+            // Handle the failure to upload the video here
+        });
+    }
 
 
 
@@ -399,21 +474,27 @@ String hisImage;
         super.onResume();
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode==RESULT_OK){
-            if(requestCode==GALLERY_REQUEST_CODE){
-                image_rui=data.getData();
-                try {
-                    sendImageMessage(image_rui);
-                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-                    e.printStackTrace();
-                }
+@Override
+protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    if(resultCode==RESULT_OK){
+        if(requestCode==GALLERY_REQUEST_CODE){
+            image_rui=data.getData();
+            try {
+                sendImageMessage(image_rui);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (requestCode == VIDEO_REQUEST_CODE) {
+            Uri videoUri = data.getData();
+            try {
+                sendVideoMessage(videoUri);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
-
     }
+    super.onActivityResult(requestCode, resultCode, data);
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
