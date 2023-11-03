@@ -11,7 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,7 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import notification.Token;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseAuth auth;
     GoogleSignInClient mGoogleSignInClient;
-    String mUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
         if(auth.getCurrentUser()==null){
             Intent intent=new Intent(MainActivity.this,SignInActivity.class);
             startActivity(intent);
-        }else{
-            mUID=auth.getUid();
         }
         getSupportActionBar().setTitle("Chats");
 
@@ -125,34 +120,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//update token
-//  updateToken(FirebaseInstanceId.getInstance(),getToken());
     }
 
-    protected  void  onResume()
-    {
-        checkUserStatus();
-        super.onResume();
-    }
 
-    private void checkUserStatus() {
-        if(auth.getCurrentUser()==null){
-            Intent intent=new Intent(MainActivity.this,SignInActivity.class);
-            startActivity(intent);
-        }else{
-            mUID=auth.getUid();
-            SharedPreferences sp= getSharedPreferences("SP_USER",MODE_PRIVATE);
-            SharedPreferences.Editor editor =sp.edit();
-            editor.putString("Current_USERID",mUID);
-            editor.apply();
-        }
-    }
 
-    public  void updateToken(String token){
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Token");
-    Token mToken=new Token(token);
-    ref.child(mUID).setValue(mToken);
-}
 
   public void onBackPressed() {
       if(drawerLayout.isDrawerOpen(GravityCompat.START)){

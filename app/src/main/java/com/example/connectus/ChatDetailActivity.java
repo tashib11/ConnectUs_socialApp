@@ -53,13 +53,13 @@ import java.util.Locale;
 
 
 public class ChatDetailActivity extends AppCompatActivity {
-ActivityChatDetailBinding binding;
-FirebaseDatabase database;
-FirebaseAuth firebaseAuth;
-DatabaseReference usersDbRef;
-String hisUid,myUid;
-String hisImage;
-//for checking if user has seen message or not
+    ActivityChatDetailBinding binding;
+    FirebaseDatabase database;
+    FirebaseAuth firebaseAuth;
+    DatabaseReference usersDbRef;
+    String hisUid,myUid;
+    String hisImage;
+    //for checking if user has seen message or not
     ValueEventListener seenListener;
     DatabaseReference userRefForSeen;
     List<ModelChat> chatList;
@@ -178,10 +178,10 @@ String hisImage;
             }
         });
 
-binding.attachBtnVideo.setOnClickListener(view -> {
-    pickVideoFromGallery();
+        binding.attachBtnVideo.setOnClickListener(view -> {
+            pickVideoFromGallery();
 
-});
+        });
         binding.backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +190,7 @@ binding.attachBtnVideo.setOnClickListener(view -> {
             }
         });
 
- readMessages();
+        readMessages();
 //        seenMessage();
 
     }
@@ -213,29 +213,29 @@ binding.attachBtnVideo.setOnClickListener(view -> {
 
 
     private void readMessages() {
-     chatList = new ArrayList<>();
-     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Chats");
-     dbRef.addValueEventListener(new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull DataSnapshot snapshot) {
-             chatList.clear();
-             for(DataSnapshot ds: snapshot.getChildren()){
-                 ModelChat chat=ds.getValue(ModelChat.class);
-                 if(chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid) ||
-                 chat.getReceiver().equals(hisUid) && chat.getSender().equals(myUid)){
-                     chatList.add(chat);
-                 }
-                 adapterChat=new AdapterChat(ChatDetailActivity.this,chatList,hisImage);
-                 //set adapter to recyclerview
-                 binding.chatRecyclerView.setAdapter(adapterChat);
-             }
-         }
+        chatList = new ArrayList<>();
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Chats");
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                chatList.clear();
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    ModelChat chat=ds.getValue(ModelChat.class);
+                    if(chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid) ||
+                            chat.getReceiver().equals(hisUid) && chat.getSender().equals(myUid)){
+                        chatList.add(chat);
+                    }
+                    adapterChat=new AdapterChat(ChatDetailActivity.this,chatList,hisImage);
+                    //set adapter to recyclerview
+                    binding.chatRecyclerView.setAdapter(adapterChat);
+                }
+            }
 
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-         }
-     });
+            }
+        });
 
     }
 
@@ -474,27 +474,27 @@ binding.attachBtnVideo.setOnClickListener(view -> {
         super.onResume();
     }
 
-@Override
-protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    if(resultCode==RESULT_OK){
-        if(requestCode==GALLERY_REQUEST_CODE){
-            image_rui=data.getData();
-            try {
-                sendImageMessage(image_rui);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (requestCode == VIDEO_REQUEST_CODE) {
-            Uri videoUri = data.getData();
-            try {
-                sendVideoMessage(videoUri);
-            } catch (Exception e) {
-                e.printStackTrace();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode==RESULT_OK){
+            if(requestCode==GALLERY_REQUEST_CODE){
+                image_rui=data.getData();
+                try {
+                    sendImageMessage(image_rui);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (requestCode == VIDEO_REQUEST_CODE) {
+                Uri videoUri = data.getData();
+                try {
+                    sendVideoMessage(videoUri);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
-    super.onActivityResult(requestCode, resultCode, data);
-}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
