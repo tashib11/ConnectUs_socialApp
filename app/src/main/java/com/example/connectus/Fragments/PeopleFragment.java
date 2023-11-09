@@ -142,6 +142,8 @@ public class PeopleFragment extends Fragment {
         // Get the SearchView from the menu item
         MenuItem menuItem=menu.findItem(R.id.action_search);
         androidx.appcompat.widget.SearchView searchView=(androidx.appcompat.widget.SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Search by name");
+
 
         // Set up the query text listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

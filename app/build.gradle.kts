@@ -48,7 +48,7 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.3.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 //    implementation ("com.google.android.material:material:1.3.0-alpha02")
-
+    implementation ("com.github.KwabenBerko:News-API-Java:1.0.2")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     implementation ("de.hdodenhof:circleimageview:3.1.0")

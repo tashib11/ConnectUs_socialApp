@@ -89,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
                 else if(id==R.id.deleteAccount){
                     Intent intent = new Intent(MainActivity.this, deleteAccountActivity.class);
                     startActivity(intent);
+                }       else if(id==R.id.news){
+                    Intent intent = new Intent(MainActivity.this, newsActivity.class);
+                    startActivity(intent);
                 }
+
 
                 return true;
             }
