@@ -48,6 +48,7 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
     String imageUrl;
     FirebaseUser fUser;
     private VideoView currentlyPlayingVideo;
+
     public AdapterChat(Context context, List<ModelChat> chatList, String imageUrl) {
         this.context = context;
         this.chatList = chatList;
@@ -113,6 +114,7 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
             if (currentlyPlayingVideo != null && currentlyPlayingVideo != holder.messageVideoView) {
                 currentlyPlayingVideo.stopPlayback();
             }
+
             holder.messageVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -120,9 +122,31 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
                     currentlyPlayingVideo = holder.messageVideoView;
                 }
             });
+            holder.messageVideoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.messageVideoView.isPlaying()) {
+                        holder.messageVideoView.pause();
+                        if (currentlyPlayingVideo == holder.messageVideoView) {
+                            currentlyPlayingVideo = null;
+                        }
+                    } else {
+                        if (currentlyPlayingVideo != null) {
+                            currentlyPlayingVideo.pause();
+                        }
+                        holder.messageVideoView.start();
+                        currentlyPlayingVideo = holder.messageVideoView;
+                    }
+                }
+            });
+
+
             holder.messageVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
+                    if (holder.messageVideoView == currentlyPlayingVideo) {
+                        currentlyPlayingVideo = null;
+                    }
                     holder.messageVideoView.stopPlayback();
                 }
             });
@@ -221,6 +245,10 @@ holder.messageTv.setOnLongClickListener(new View.OnLongClickListener() {
         if (holder.messageVideoView.isPlaying()) {
             holder.messageVideoView.start();
         }
+        if (currentlyPlayingVideo != null && currentlyPlayingVideo != holder.messageVideoView) {
+            currentlyPlayingVideo.stopPlayback();
+        }
+        currentlyPlayingVideo = holder.messageVideoView;
     }
 
     @Override
@@ -228,6 +256,9 @@ holder.messageTv.setOnLongClickListener(new View.OnLongClickListener() {
         super.onViewDetachedFromWindow(holder);
         if (holder.messageVideoView.isPlaying()) {
             holder.messageVideoView.pause();
+        }
+        if (currentlyPlayingVideo == holder.messageVideoView) {
+            currentlyPlayingVideo = null;
         }
     }
 

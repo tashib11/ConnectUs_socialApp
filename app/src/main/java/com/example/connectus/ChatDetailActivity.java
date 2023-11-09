@@ -84,7 +84,7 @@ public class ChatDetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 // layout for Recycler view
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this);
-        linearLayoutManager.setStackFromEnd(true);
+       // linearLayoutManager.setStackFromEnd(true);
 
         binding.chatRecyclerView.setHasFixedSize(true);
         binding.chatRecyclerView.setLayoutManager(linearLayoutManager);
