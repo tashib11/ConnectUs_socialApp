@@ -130,7 +130,13 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
                         if (currentlyPlayingVideo == holder.messageVideoView) {
                             currentlyPlayingVideo = null;
                         }
+                    } else if (holder.messageVideoView.getCurrentPosition() == holder.messageVideoView.getDuration()) {
+                        // If the video has ended, reset to the start and play
+                        holder.messageVideoView.seekTo(0);
+                        holder.messageVideoView.start();
+                        currentlyPlayingVideo = holder.messageVideoView;
                     } else {
+                        // If the video is paused, start playing from the current position
                         if (currentlyPlayingVideo != null) {
                             currentlyPlayingVideo.pause();
                         }
@@ -147,9 +153,13 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
                     if (holder.messageVideoView == currentlyPlayingVideo) {
                         currentlyPlayingVideo = null;
                     }
-                    holder.messageVideoView.stopPlayback();
+                    holder.messageVideoView.seekTo(0); // Reset video to start
+                    holder.messageVideoView.setVideoURI(videoUri); // Prepare the video again
+                    holder.messageVideoView.requestFocus();
                 }
             });
+
+
         }
 
 

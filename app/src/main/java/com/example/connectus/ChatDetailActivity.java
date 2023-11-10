@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,8 +18,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -84,10 +88,35 @@ public class ChatDetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 // layout for Recycler view
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this);
-       // linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setStackFromEnd(true);
 
         binding.chatRecyclerView.setHasFixedSize(true);
         binding.chatRecyclerView.setLayoutManager(linearLayoutManager);
+
+
+        binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                binding.getRoot().getWindowVisibleDisplayFrame(r);
+                int screenHeight = binding.getRoot().getRootView().getHeight();
+                int keypadHeight = screenHeight - r.bottom;
+
+                if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+                    // Keyboard is opened
+                    // Adjust your chat layout here
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.chatRecyclerView.getLayoutParams();
+                    layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, keypadHeight/30);
+                    binding.chatRecyclerView.setLayoutParams(layoutParams);
+                } else {
+                    // Keyboard is closed
+                    // Reset your chat layout here
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.chatRecyclerView.getLayoutParams();
+                    layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, 0);
+                    binding.chatRecyclerView.setLayoutParams(layoutParams);
+                }
+            }
+        });
 
 
         Intent intent=getIntent();
@@ -287,7 +316,8 @@ public class ChatDetailActivity extends AppCompatActivity {
             }
         });
 
-
+        // scroll to the bottom of the RecyclerView
+        binding.chatRecyclerView.scrollToPosition(chatList.size() - 1);
     }
     private void sendImageMessage(Uri image_rui) throws IOException {
         ProgressDialog progressDialog = new ProgressDialog(this);

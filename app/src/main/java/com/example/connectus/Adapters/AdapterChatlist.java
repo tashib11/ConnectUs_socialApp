@@ -58,7 +58,7 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
 
         // Display the image placeholder or last sent image
         if (lastMessage != null && lastMessage.equals("Sent a photo")) {
-            holder.lastMessageTv.setText(lastMessage);
+            holder.lastMessageTv.setText("photo");
         } else {
             holder.lastMessageTv.setText(lastMessage);
         }
