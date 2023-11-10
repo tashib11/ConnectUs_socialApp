@@ -163,25 +163,19 @@ public class ChatDetailActivity extends AppCompatActivity {
                     //set data
                     binding.nameTv.setText(name);
 
-                    try {
-                        Glide.with(ChatDetailActivity.this)
-                                .load(hisImage)
-                                .placeholder(R.drawable.avatar)
-                                .into(binding.profileIv);
-                    } catch (Exception e) {
-                        Glide.with(ChatDetailActivity.this)
-                                .load(R.drawable.avatar)
-                                .into(binding.profileIv);
-                    }
-//                    try{
-//                        Picasso.get().load(hisImage).fit().placeholder(R.drawable.avatar).into(binding.profileIv);
-//
-//                    }catch (Exception e){
-//                        Picasso.get().load(R.drawable.avatar).into(binding.profileIv);
-//                    }
-
+                    if (!isFinishing()) {
+                        try {
+                            Glide.with(ChatDetailActivity.this)
+                                    .load(hisImage)
+                                    .placeholder(R.drawable.avatar)
+                                    .into(binding.profileIv);
+                        } catch (Exception e) {
+                            Glide.with(ChatDetailActivity.this)
+                                    .load(R.drawable.avatar)
+                                    .into(binding.profileIv);
+                        }
+                    }}
                 }
-            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

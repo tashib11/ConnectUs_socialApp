@@ -253,5 +253,10 @@ ActivitySignInBinding binding;
                     }
                 });
     }
+    public void onBackPressed(){
+
+        finishAffinity();
+        finish();
+    }
 
 }
