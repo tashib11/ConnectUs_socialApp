@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
     String storagePath="Users_Profile_Cover_Imgs/";
     Uri image_uri;
     String profileOrCover;
+    private String imageUrl;
 //    permission constants
 //    private  static  final  int CAMERA_REQUEST_CODE = 100;
 //    private  static  final  int STORAGE_REQUEST_CODE = 200;
@@ -103,6 +105,7 @@ storageReference = storage.getReference();//firebase storage reference
                     binding.nameTv.setText(name);
                     binding.emailTv.setText(email);
                     binding.phoneTv.setText(phone);
+                    imageUrl=image;
 
                     try {
                         Glide.with(SettingsActivity.this)
@@ -368,11 +371,15 @@ Button updatePasswordBtn = view.findViewById(R.id.updatePasswordBtn);
                 });
 
     }
-    public void onBackPressed(){
-
-            Intent intent= new Intent(SettingsActivity.this, MainActivity.class);
-            startActivity( intent);
-
+    @Override
+    public void onBackPressed() {
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            Toast.makeText(SettingsActivity.this, "Please, set your profile pic", Toast.LENGTH_LONG).show();
+        } else {
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
+
 
 }
