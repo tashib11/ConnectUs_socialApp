@@ -48,7 +48,7 @@
 
     <item android:right="0dp">
         <shape android:shape="rectangle">
-            <solid android:color="#B95BC4" />
+            <solid android:color="#EA80FC" />
             <corners android:bottomLeftRadius="0dp" android:radius="10dp" />
         </shape>
     </item>

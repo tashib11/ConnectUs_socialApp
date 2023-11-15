@@ -2,8 +2,6 @@ package com.example.connectus.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -32,13 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
     private  static  final  int MSG_TYPE_LEFT=0;
@@ -60,10 +57,10 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType==MSG_TYPE_LEFT){
             View view= LayoutInflater.from(context).inflate(R.layout.sample_receiver,parent,false);
-            return  new MyHolder(view);
+            return new MyHolder(view);
         }else{
             View view= LayoutInflater.from(context).inflate(R.layout.sample_sender,parent,false);
-            return  new MyHolder(view);
+            return new MyHolder(view);
         }
         
     }
@@ -72,7 +69,6 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
     public void onBindViewHolder(@NonNull MyHolder holder,int position) {
         String message = chatList.get(position).getMessage();
         String timeStamp = chatList.get(position).getTimestamp();
-        String type= chatList.get(position).getType();
 
         try {
             // Convert timestamp to dd//mm//yyyy hh:mm am/pm
@@ -115,12 +111,9 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.MyHolder> {
                 currentlyPlayingVideo.stopPlayback();
             }
 
-            holder.messageVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    holder.messageVideoView.start();
-                    currentlyPlayingVideo = holder.messageVideoView;
-                }
+            holder.messageVideoView.setOnPreparedListener(mp -> {
+                holder.messageVideoView.start();
+                currentlyPlayingVideo = holder.messageVideoView;
             });
             holder.messageVideoView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -170,7 +163,7 @@ holder.messageTv.setOnLongClickListener(new View.OnLongClickListener() {
     public boolean onLongClick(View view) {
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
         builder.setTitle("Remove message");
-        builder.setMessage("Remove this message,Sure?");
+        builder.setMessage("Remove for you");
         builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -200,7 +193,7 @@ holder.messageTv.setOnLongClickListener(new View.OnLongClickListener() {
     }
 
     private void deleteMessage(int position) {
-        String myUID=FirebaseAuth.getInstance().getCurrentUser().getUid();//sender id
+        String myUID= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();//sender id
 // get time of clicked msg
         //comapre the time of the clicked mesg with allmsg in chats
 
@@ -272,7 +265,7 @@ holder.messageTv.setOnLongClickListener(new View.OnLongClickListener() {
         }
     }
 
-    class MyHolder extends RecyclerView.ViewHolder{
+    static class MyHolder extends RecyclerView.ViewHolder{
         VideoView messageVideoView;
         ImageView profileIv,messageIv;
         TextView messageTv, timeTv, isSeenTv;

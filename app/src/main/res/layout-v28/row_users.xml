@@ -7,8 +7,6 @@
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
     app:cardBackgroundColor="@color/blacklight"
-    android:outlineSpotShadowColor="@color/teal_200"
-    android:outlineAmbientShadowColor="@color/teal_200"
     app:contentPadding="3dp"
 
     >
