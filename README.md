@@ -6,7 +6,7 @@ There are some features available like -<br>
   <li>sending pic</li>
   <li>sending video</li>
   
-  <li>real time and date specification of sending contents</li>
+  <li>real time and date specification of sending contents(messaging, sending pic and videos)</li>
 </ul>
 </list>
-messaging,sending pic and videos.
+
